@@ -1,6 +1,7 @@
 import os
 from datetime import datetime, timedelta, timezone
 
+import libcamera
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QLabel, QPushButton,
                              QVBoxLayout, QWidget)
@@ -20,13 +21,10 @@ def post_callback(request):
 
 picam2 = Picamera2()
 picam2.post_callback = post_callback
-# preview_config = picam2.create_preview_configuration()
-# preview_config["transform"] = libcamera.Transform(hflip=1, vflip=1)
-picam2.configure(
-    picam2.create_preview_configuration(
-        main={"size": (800, 600), "transform": {"hflip": 1, "vflip": 1}}
-    )
-)
+preview_config = picam2.create_preview_configuration(main={"size": (800, 600)})
+preview_config["transform"] = libcamera.Transform(hflip=1, vflip=1)
+# picam2.configure(picam2.create_preview_configuration(main={"size": (800, 600)}))
+picam2.configure(preview_config)
 
 app = QApplication([])
 
