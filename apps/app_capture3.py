@@ -20,7 +20,13 @@ def post_callback(request):
 
 picam2 = Picamera2()
 picam2.post_callback = post_callback
-picam2.configure(picam2.create_preview_configuration(main={"size": (800, 600)}))
+# preview_config = picam2.create_preview_configuration()
+# preview_config["transform"] = libcamera.Transform(hflip=1, vflip=1)
+picam2.configure(
+    picam2.create_preview_configuration(
+        main={"size": (800, 600), "transform": {"hflip": 1, "vflip": 1}}
+    )
+)
 
 app = QApplication([])
 
